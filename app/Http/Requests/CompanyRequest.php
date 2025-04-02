@@ -22,8 +22,8 @@ class CompanyRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => ['required', 'string'],
-            'email' => ['required', 'email'],
+            'name' => ['required', 'string', 'unique:companies,name,' . $this->id],
+            'email' => ['required', 'email', 'unique:companies,email,' . $this->id],
             'address' => ['nullable', 'string'],
             'website' => ['nullable', 'url'],
         ];
