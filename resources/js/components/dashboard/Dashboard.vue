@@ -86,8 +86,8 @@ const recentActivities = ref([
     background: white;
     padding: 20px;
     border-radius: 6px;
-    border: 1px solid #c0c0c0;
-    box-shadow: 5px 5px 0px #a0a0a0;
+    border: 1px solid #1F2937;
+    box-shadow: 0px 5px 0px #1F2937;
     position: relative;
 }
 
@@ -113,8 +113,8 @@ const recentActivities = ref([
     background: white;
     padding: 20px;
     border-radius: 6px;
-    border: 1px solid #c0c0c0;
-    box-shadow: 5px 5px 0px #a0a0a0;
+    border: 1px solid #1F2937;
+    box-shadow: 0px 5px 0px #1F2937;
     margin-bottom: 30px;
     position: relative;
 }
@@ -131,7 +131,7 @@ const recentActivities = ref([
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    border: 2px dashed #b0b0b0;
+    border: 2px dashed #1F2937;
     border-radius: 4px;
     background: #f0f0f0;
     color: #555;
@@ -141,8 +141,8 @@ const recentActivities = ref([
     background: white;
     padding: 20px;
     border-radius: 6px;
-    border: 1px solid #c0c0c0;
-    box-shadow: 5px 5px 0px #a0a0a0;
+    border: 1px solid #1F2937;
+    box-shadow: 0px 5px 0px #1F2937;
     position: relative;
 }
 
@@ -159,7 +159,7 @@ const recentActivities = ref([
 
 .activity-item {
     padding: 12px 0;
-    border-bottom: 1px solid #d0d0d0;
+    border-bottom: 1px solid #1F2937;
     display: flex;
 }
 

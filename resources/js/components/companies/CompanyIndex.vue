@@ -40,6 +40,7 @@
 <script>
     import useCompanies from '../../composible/companies';
     import { onMounted } from 'vue';
+    import Notiflix from "notiflix";
 
     export default {
         name: 'CompanyIndex',
@@ -51,10 +52,25 @@
             });
 
             const deleteCompany = async (id) => {
-                if (confirm('Are you sure you want to delete this company?')) {
-                    await destroyCompany(id);
-                    getCompanies();
-                }
+                // if (confirm('Are you sure you want to delete this company?')) {
+                //     await destroyCompany(id);
+                //     getCompanies();
+                // }
+                Notiflix.Confirm.show(
+                    'Are you sure?',
+                    'You won\'t be able to revert this!',
+                    'Confirm',
+                    'Cancel',
+                    async function okCb() {
+                        await destroyCompany(id);
+                        getCompanies();
+                    },
+                    function cancelCb() {
+
+                    },
+                    {
+                    },
+                );
             };
 
             return {

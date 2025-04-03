@@ -1,6 +1,7 @@
 import { ref, onMounted } from "vue";
 import axios from "axios";
 import { useRouter } from "vue-router";
+import Notiflix from "notiflix";
 
 export default function useCompanies() {
     const companies = ref([]);
@@ -45,11 +46,12 @@ export default function useCompanies() {
             await axios.post('/laravel-vue/laravel-vue-crud/api/companies', data);
             await router.push({ name: 'companies.index' });
 
-            console.log('Company created successfully:', data);
+            Notiflix.Notify.success("Company created successfully");
+
         } catch (err) {
             if (err.response && err.response.status === 422) {
                 errors.value = err.response.data.errors;
-                console.error('Validation error:', errors.value);
+                Notiflix.Notify.failure("Invalid form input");
             }
         } finally {
             loading.value = false;
@@ -63,11 +65,11 @@ export default function useCompanies() {
             await axios.put('/laravel-vue/laravel-vue-crud/api/companies/' + id, company.value);
             await router.push({ name: 'companies.index' });
 
-            console.log('Company created successfully:', data);
+            Notiflix.Notify.success("Company updated successfully");
         } catch (err) {
             if (err.response && err.response.status === 422) {
                 errors.value = err.response.data.errors;
-                console.error('Validation error:', errors.value);
+                Notiflix.Notify.failure("Invalid form input");
             }
         } finally {
             loading.value = false;
@@ -78,10 +80,11 @@ export default function useCompanies() {
         loading.value = true;
         try {
             await axios.delete(`/laravel-vue/laravel-vue-crud/api/companies/${id}`);
+            Notiflix.Notify.success("Company deleted successfully");
             // companies.value = companies.value.filter(company => company.id !== id);
-            // console.log('Company deleted successfully:', id);
         } catch (err) {
             errors.value = 'Error deleting company: ' + err.message;
+            Notiflix.Notify.failure("Error deleting company");
         } finally {
             loading.value = false;
         }
