@@ -1,8 +1,4 @@
 <template>
-    <router-link :to="{ name: 'companies.index' }" class="mb-4 py-4">
-        < Back to index
-    </router-link>
-
     <div>
         <form class="space-y-6" @submit.prevent="saveCompany">
             <div class="space-y-4">
@@ -27,7 +23,10 @@
                     <div v-if="errors.website" class="text-red-600 text-sm mt-1">{{ errors.website[0] }}</div>
                 </div>
             </div>
-            <div class="flex justify-end">
+            <div class="flex justify-between">
+                <router-link :to="{ name: 'companies.index' }" class="mb-4">
+                    Back to index
+                </router-link>
                 <SaveButton>Save Company</SaveButton>
             </div>
         </form>

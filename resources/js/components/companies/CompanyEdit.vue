@@ -1,8 +1,4 @@
 <template>
-    <router-link :to="{ name: 'companies.index' }" class="mb-4 py-4">
-        < Back to index
-    </router-link>
-
     <div v-if="loading">Loading company data...</div>
 
     <div v-else>
@@ -29,7 +25,10 @@
                     <div v-if="errors.website" class="text-red-600 text-sm mt-1">{{ errors.website[0] }}</div>
                 </div>
             </div>
-            <div class="flex justify-end">
+            <div class="flex justify-between">
+                <router-link :to="{ name: 'companies.index' }" class="mb-4">
+                    Back to index
+                </router-link>
                 <SaveButton>Save Company</SaveButton>
             </div>
 
