@@ -16,91 +16,78 @@
                         <NavLink :to="{ name: 'dashboard' }" :active="routeStartsWith('dashboard')">
                             Dashboard
                         </NavLink>
-                        <NavLink :to="{ name: 'companies.index' }" :active="routeStartsWith('companies')">
+                        <NavLink v-if="isAuthenticated" :to="{ name: 'companies.index' }" :active="routeStartsWith('companies')">
                             Companies
                         </NavLink>
-                        <!-- <NavLink :to="{ name: 'products.index' }" :active="routeStartsWith('products')">
-                        Products
-                        </NavLink>
-                        <NavLink :to="{ name: 'employees.index' }" :active="routeStartsWith('employees')">
-                        Employees
-                        </NavLink>
-                        <NavLink :to="{ name: 'customers.index' }" :active="routeStartsWith('customers')">
-                        Customers
-                        </NavLink> -->
-                        <!-- Add more navigation links as needed -->
+                        <!-- Add more authenticated navigation links as needed -->
                     </div>
                 </div>
 
                 <!-- Settings Dropdown -->
                 <div class="hidden sm:flex sm:items-center sm:ms-6">
-                    <Dropdown align="right" width="48">
-                        <template #trigger>
-                            <button class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 dark:text-gray-400 bg-white dark:bg-gray-800 hover:text-gray-700 dark:hover:text-gray-300 focus:outline-none transition ease-in-out duration-150">
-                                <div>Username</div>
+                    <!-- Show when authenticated -->
+                    <template v-if="isAuthenticated">
+                        <Dropdown align="right" width="48">
+                            <template #trigger>
+                                <button class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 dark:text-gray-400 bg-white dark:bg-gray-800 hover:text-gray-700 dark:hover:text-gray-300 focus:outline-none transition ease-in-out duration-150">
+                                    <div>{{ user ? user.name : 'Account' }}</div>
 
-                                <div class="ms-1">
-                                    <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
-                                        <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
-                                    </svg>
-                                </div>
-                            </button>
-                        </template>
+                                    <div class="ms-1">
+                                        <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                                            <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
+                                        </svg>
+                                    </div>
+                                </button>
+                            </template>
 
-                        <template #content>
-                            <!-- <DropdownLink :to="{ name: 'profile.edit' }">
-                                Profile
-                            </DropdownLink> -->
+                            <template #content>
+                                <DropdownLink :to="{ name: 'profile' }">
+                                    Profile
+                                </DropdownLink>
 
-                            <!-- Authentication -->
-                            <!-- <DropdownLink :to="{ name: 'logout' }" @click.prevent="logout">
-                                Log Out
-                            </DropdownLink> -->
+                                <!-- Authentication -->
+                                <DropdownLink as="button" @click="logout">
+                                    Log Out
+                                </DropdownLink>
+                            </template>
+                        </Dropdown>
+                    </template>
 
-                            <DropdownLink :to="{ name: 'companies.index' }">
-                                Profile
-                            </DropdownLink>
-
-                            <!-- Authentication -->
-                            <DropdownLink :to="{ name: 'companies.index' }" @click.prevent="logout">
-                                Log Out
-                            </DropdownLink>
-                        </template>
-                    </Dropdown>
+                    <!-- Show when not authenticated -->
+                    <template v-else>
+                        <div class="space-x-4">
+                            <router-link :to="{ name: 'login' }" class="text-sm text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-gray-100">
+                                Login
+                            </router-link>
+                            <router-link :to="{ name: 'register' }" class="ml-4 text-sm text-white bg-indigo-600 py-2 px-4 rounded-md hover:bg-indigo-700">
+                                Register
+                            </router-link>
+                        </div>
+                    </template>
                 </div>
             </div>
         </div>
     </nav>
 </template>
 
-<script>
+<script setup>
+import { onMounted } from 'vue';
 import AppLogo from './partials/AppLogo.vue';
 import Dropdown from './partials/Dropdown.vue';
 import DropdownLink from './partials/DropdownLink.vue';
 import NavLink from './partials/NavLink.vue';
+import { useRoute } from 'vue-router';
+import useAuth from '../../composible/auth';
 
-export default {
-    components: {
-        AppLogo,
-        NavLink,
-        Dropdown,
-        DropdownLink
-    },
-    methods: {
-        routeStartsWith(prefix) {
-            return this.$route.name && this.$route.name.startsWith(prefix);
-        },
-        logout() {
-            // Implement your logout logic here
-            // Example:
-            // this.$store.dispatch('auth/logout');
-            // this.$router.push({ name: 'login' });
-        }
-    },
-    computed: {
-        isCompaniesRoute() {
-            return this.routeStartsWith('companies');
-        }
-    }
-}
+const route = useRoute();
+const { user, isAuthenticated, logout, initAuth } = useAuth();
+
+onMounted(() => {
+    // Initialize authentication status
+    initAuth();
+});
+
+const routeStartsWith = (prefix) => {
+    return route.name && route.name.startsWith(prefix);
+};
 </script>

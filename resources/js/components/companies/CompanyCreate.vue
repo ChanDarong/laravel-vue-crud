@@ -23,11 +23,15 @@
                     <div v-if="errors.website" class="text-red-600 text-sm mt-1">{{ errors.website[0] }}</div>
                 </div>
             </div>
-            <div class="flex justify-between">
-                <router-link :to="{ name: 'companies.index' }" class="mb-4">
-                    Back to index
+            <div class="flex justify-between align-baseline">
+                <router-link :to="{ name: 'companies.index' }" class=" text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white">
+                    ← Back to index
                 </router-link>
-                <SaveButton>Save Company</SaveButton>
+                <Button>
+                    <button type="submit" class="uppercase">
+                        Save Company
+                    </button>
+                </Button>
             </div>
         </form>
     </div>
@@ -38,6 +42,7 @@
 import FormLabel from './forms/Label.vue';
 import FormInput from './forms/Input.vue';
 import SaveButton from './forms/SaveButton.vue';
+import Button from '../partials/Button.vue';
 
 import { reactive } from 'vue';
 import useCompanies from '../../composible/companies';
